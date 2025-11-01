@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-k8s-app
+  name: simple-app
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: simple-k8s-app
+      app: simple-app
   template:
     metadata:
       labels:
-        app: simple-k8s-app
+        app: simple-app
     spec:
       containers:
-      - name: simple-k8s-app
-        image: your-dockerhub-username/simple-k8s-app:latest
+      - name: simple-app
+        image: your-dockerhub-username/simple-app:latest
         ports:
         - containerPort: 8080

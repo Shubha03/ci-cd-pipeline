@@ -1,12 +1,11 @@
-name: CI/CD Pipeline
+name: Build and Push Docker Image
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build-push-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,23 +21,9 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and Push Docker image
+    - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
+        context: .
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/simple-k8s-app:latest
-
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-        version: 'v1.29.0'
-
-    - name: Configure Kubeconfig
-      run: |
-        echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
-
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl apply -f k8s/deployment.yaml
-        kubectl apply -f k8s/service.yaml
-        kubectl rollout status deployment/simple-k8s-app
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/simple-app:latest
