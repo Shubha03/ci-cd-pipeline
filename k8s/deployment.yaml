@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: simple-app
-        image: your-dockerhub-username/simple-app:latest
+        image: shubha03/simple-app:latest
         ports:
         - containerPort: 8080
